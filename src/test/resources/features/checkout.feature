@@ -8,8 +8,8 @@ Feature: Checkout items on secret sauce
 		
 	Scenario: Should succesfully purchase items
 	  When the user adds items to the cart
-								  		| "Sauce Labs Backpack" 	|
-											| "Sauce Labs Bike Light" |
+								  		| Sauce Labs Backpack 	|
+											| Sauce Labs Bike Light |
 		And the user navigates to the cart
 		And the user proceeds to checkout
 		And the user enters their details

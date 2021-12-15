@@ -1,4 +1,4 @@
-@selenium
+#@selenium
 Feature: Navigate to Bing
 
 	As a user, I want to navigate to Bing so that I can search for things.

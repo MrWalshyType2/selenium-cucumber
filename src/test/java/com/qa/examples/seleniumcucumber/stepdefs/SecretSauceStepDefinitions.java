@@ -1,5 +1,7 @@
 package com.qa.examples.seleniumcucumber.stepdefs;
 
+import static org.junit.Assert.assertTrue;
+
 import java.time.Duration;
 import java.util.List;
 
@@ -18,11 +20,11 @@ public class SecretSauceStepDefinitions {
 
 	private WebDriver webDriver;
 
-	private String username;
-	private String password;
-	private String forename;
-	private String surname;
-	private String postcode;
+	private String username = "standard_user";
+	private String password = "secret_sauce";
+	private String forename = "fred";
+	private String surname = "red";
+	private String postcode = "SO15 23R";
 
 	private PageRepository pages;
 
@@ -38,51 +40,53 @@ public class SecretSauceStepDefinitions {
 
 	@Given("the user is logged in")
 	public void theUserIsLoggedIn() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+		this.pages.storePage = pages.loginPage
+									.login(username, password);
 	}
 
 	@When("the user adds items to the cart")
 	public void theUserAddsItemsToTheCart(List<String> items) {
-		// iterate through items
-		// add each to cart
-		throw new io.cucumber.java.PendingException();
+		for (String item : items) {
+			pages.storePage
+			     .addItemToCart(item);
+		}
 	}
 
 	@When("the user navigates to the cart")
 	public void theUserNavigatesToTheCart() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+		pages.cartPage = pages.storePage
+				              .navigateToCart();
 	}
 
 	@When("the user proceeds to checkout")
 	public void theUserProceedsToCheckout() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+		pages.checkoutPage = pages.cartPage
+				                  .navigateToCheckout();
 	}
 
 	@When("the user enters their details")
 	public void theUserEntersTheirDetails() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+		pages.checkoutPage
+		     .fillForm(forename, surname, postcode);
 	}
 
 	@When("the user proceeds to checkout overview")
 	public void theUserProceedsToCheckoutOverview() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+		pages.checkoutOverviewPage = pages.checkoutPage
+				                          .navigateToCheckoutOverview();
 	}
 
 	@When("the user confirms the transaction")
 	public void theUserConfirmsTheTransaction() {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+		pages.checkoutCompletePage = pages.checkoutOverviewPage
+				                          .completeTransaction();
 	}
 
 	@Then("a purchase verification should appear on the screen saying {string}")
-	public void aPurchaseVerificationShouldAppearOnTheScreenSaying(String string) {
-		// Write code here that turns the phrase above into concrete actions
-		throw new io.cucumber.java.PendingException();
+	public void aPurchaseVerificationShouldAppearOnTheScreenSaying(String expected) {
+		boolean orderSuccess = pages.checkoutCompletePage
+									.didOrderComplete(expected);
+		assertTrue(orderSuccess);
 	}
 
 }
